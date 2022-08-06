@@ -1,0 +1,20 @@
+id: c
+data_dir: c/data
+listen_raft: 0.0.0.0:5093
+peers:
+  a: 0.0.0.0:5091
+  b: 0.0.0.0:5092
+#  d: 0.0.0.0:5094
+#  e: 0.0.0.0:5095
+
+#heartbeat_interval: 0.3
+#election_timeout_from: 1.5
+#election_timeout_to: 3.0
+#step_down_timeout: 5.0
+
+#Slowing down f
+heartbeat_interval: 3
+election_timeout_from: 5
+election_timeout_to: 10
+step_down_timeout: 20
+replication_factor: 1

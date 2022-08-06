@@ -1,14 +1,25 @@
 import sys
+from pathlib import Path
+
 import pytest
+import yaml
+from _pytest.monkeypatch import MonkeyPatch
+
+@pytest.fixture(scope="module")
+def monkeypatch():
+    mpatch = MonkeyPatch()
+    yield mpatch
+    mpatch.undo()
 
 
-# each test runs on cwd to its temp dir
-@pytest.fixture(autouse=True)
-def go_to_tmpdir(request):
-    # Get the fixture dynamically by its name.
-    tmpdir = request.getfixturevalue("tmpdir")
-    # ensure local test created packages can be imported
-    sys.path.insert(0, str(tmpdir))
-    # Chdir only for the duration of the test.
-    with tmpdir.as_cwd():
-        yield
+@pytest.fixture(scope="module")
+def base_path() -> Path:
+    return Path(__file__).parent
+
+
+@pytest.fixture(scope="module")
+def config(base_path, monkeypatch):
+    monkeypatch.chdir(base_path)
+    config_file = open("../clusters/a/conf.yaml")
+    config = yaml.safe_load(config_file)
+    return config
