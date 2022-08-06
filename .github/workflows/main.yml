@@ -14,29 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  linter:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [ 3.10.5 ]
-        poetry-version: [ 1.1.14 ]
-        os: [ ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.1.14
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-      - name: Run linter
-        run: make lint
-
   tests_linux:
-    needs: linter
     strategy:
       fail-fast: false
       matrix:
@@ -44,63 +22,114 @@ jobs:
         poetry-version: [ 1.1.14 ]
         os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
+    needs: check-out
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.1.14
+          python-version: 3.10.5
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v2.0.0
         with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
+          poetry-version: 1.1.14
+      - name: View poetry --help
+        run: poetry --help
+      - name: Install packages
+        run: poetry install
       - name: Run tests
-        run: make test
-      - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v1
-        # with:
-        #   fail_ci_if_error: true
-
-  tests_mac:
-    needs: linter
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [ 3.10.5 ]
-        poetry-version: [ 1.1.14 ]
-        os: [ macos-latest ]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.1.14
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-      - name: Run tests
-        run: make test
-
-  tests_win:
-    needs: linter
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [ 3.10.5 ]
-        poetry-version: [ 1.1.14 ]
-        os: [ windows-latest ]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.1.14
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-      - name: run tests
-        run: poetry run pytest
+        run: >
+          poetry run pytest
+          --cov-config=.coveragerc
+          --cov=app
+          --cov-report html:cov_html
+          --cov-report xml:coverage.xml
+#  linter:
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        python-version: [ 3.10.5 ]
+#        poetry-version: [ 1.1.14 ]
+#        os: [ ubuntu-latest ]
+#    runs-on: ${{ matrix.os }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#      - name: Install Poetry
+#        uses: snok/install-poetry@v1.1.14
+#        with:
+#          virtualenvs-create: true
+#          virtualenvs-in-project: true
+#      - name: Run linter
+#        run: make lint
+#
+#  tests_linux:
+#    needs: linter
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        python-version: [ 3.10.5 ]
+#        poetry-version: [ 1.1.14 ]
+#        os: [ ubuntu-latest ]
+#    runs-on: ${{ matrix.os }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#      - name: Install Poetry
+#        uses: snok/install-poetry@v1.1.14
+#        with:
+#          virtualenvs-create: true
+#          virtualenvs-in-project: true
+#      - name: Run tests
+#        run: make test
+#      - name: "Upload coverage to Codecov"
+#        uses: codecov/codecov-action@v1
+#        # with:
+#        #   fail_ci_if_error: true
+#
+#  tests_mac:
+#    needs: linter
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        python-version: [ 3.10.5 ]
+#        poetry-version: [ 1.1.14 ]
+#        os: [ macos-latest ]
+#    runs-on: ${{ matrix.os }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#      - name: Install Poetry
+#        uses: snok/install-poetry@v1.1.14
+#        with:
+#          virtualenvs-create: true
+#          virtualenvs-in-project: true
+#      - name: Run tests
+#        run: make test
+#
+#  tests_win:
+#    needs: linter
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        python-version: [ 3.10.5 ]
+#        poetry-version: [ 1.1.14 ]
+#        os: [ windows-latest ]
+#    runs-on: ${{ matrix.os }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#      - name: Install Poetry
+#        uses: snok/install-poetry@v1.1.14
+#        with:
+#          virtualenvs-create: true
+#          virtualenvs-in-project: true
+#      - name: run tests
+#        run: poetry run pytest
