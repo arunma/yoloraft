@@ -35,10 +35,15 @@ jobs:
         run: poetry --help
       - name: Install packages
         run: poetry install
-      - name: Run linter
-        run: make lint
+      - name: Lint and flake8
+        working-directory: operator/
+        run: |
+          poetry install
+          poetry run black . --check
+          poetry run flake8 --config ../setup.cfg
 
   run_tests:
+    needs: linter
     strategy:
       fail-fast: false
       matrix:
