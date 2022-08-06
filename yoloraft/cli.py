@@ -1,28 +1,37 @@
-"""CLI interface for yoloraft project.
-
-Be creative! do whatever you want!
-
-- Install click or typer and create a CLI app
-- Use builtin argparse
-- Start a web application
-- Import things from your .base module
-"""
-
-
-def main():  # pragma: no cover
-    """
-    The main function executes on commands:
-    `python -m yoloraft` and `$ yoloraft `.
-
-    This is your program's entry point.
-
-    You can change this function to do whatever you want.
-    Examples:
-        * Run a test suite
-        * Run a server
-        * Do some other stuff
-        * Run a command line application (Click, Typer, ArgParse)
-        * List all available tasks
-        * Run an application (Flask, FastAPI, Django, etc.)
-    """
-    print("This will do something")
+# import logging
+# import os
+#
+# import click
+# from click_repl import register_repl
+#
+# from yoloraft.config import ConfigLoader
+#
+# """
+#     The main function executes on commands:
+#     `python -m yoloraft` and `$ yoloraft `.
+# """
+#
+#
+# @click.group()
+# @click.option(
+#     "--config",
+#     envvar="CONFIG_HOME",
+#     metavar="CONFIG_PATH",
+#     help="Absolute path to the config file.",
+# )
+# @click.version_option("1.0")
+# def cli(path):  # pragma: no cover
+#     config = ConfigLoader.load(os.path.abspath(path))
+#     logging.debug(f"Config: {config}")
+#     id, peers, data_dir, listen_raft = (
+#         config.id,
+#         config.peers,
+#         config.data_dir,
+#         config.listen_raft,
+#     )
+#     Server(id, peers, data_dir).serve(listen_raft)
+#
+#
+# def main():
+#     register_repl(cli)
+#     cli()

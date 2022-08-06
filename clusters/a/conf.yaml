@@ -1,3 +1,4 @@
+cluster_name: yolo
 id: a
 data_dir: a/data
 listen_raft: 0.0.0.0:5091
@@ -7,8 +8,11 @@ peers:
 #  d: 0.0.0.0:5094
 #  e: 0.0.0.0:5095
 
-heartbeat_interval: 0.3
-election_timeout_from: 1.5
-election_timeout_to: 3.0
-step_down_timeout: 5.0
-replication_factor: 1
+election_timeout_min: 150
+election_timeout_max: 300
+heartbeat_interval: 50
+max_payload_entries: 100
+replication_lag_threshold: 100
+snapshot_policy:
+  logs_since_last_snapshot: 10
+  snapshot_max_chunk_size: 3000000

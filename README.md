@@ -12,3 +12,11 @@
 ```bash
 pip install yoloraft
 ``` -->
+
+
+```
+https://stackoverflow.com/questions/36336330/multi-threaded-asyncio-in-python
+
+future = asyncio.run_coroutine_threadsafe(protocol.stop, loop=loop)
+future.result()  # wait for results
+```
