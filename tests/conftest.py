@@ -5,6 +5,7 @@ import pytest
 import yaml
 from _pytest.monkeypatch import MonkeyPatch
 
+
 @pytest.fixture(scope="module")
 def monkeypatch():
     mpatch = MonkeyPatch()
