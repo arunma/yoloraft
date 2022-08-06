@@ -36,7 +36,7 @@ jobs:
       - name: Install packages
         run: poetry install
       - name: Lint and flake8
-        working-directory: operator/
+        working-directory: yoloraft/
         run: |
           poetry install
           poetry run black . --check
