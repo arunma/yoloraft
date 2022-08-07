@@ -9,7 +9,8 @@ import yaml
 from _pytest.monkeypatch import MonkeyPatch
 
 from yoloraft.config import ConfigLoader
-#from yoloraft.raft.server import Server
+
+# from yoloraft.raft.server import Server
 import logging.config
 
 logger = logging.getLogger(__name__)
