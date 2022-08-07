@@ -22,9 +22,7 @@ class Config:
     snapshot_policy: Dict[str, str]
 
     def new_random_election_timeout(self):
-        return random.randint(
-            self.election_timeout_min, self.election_timeout_max
-        )
+        return random.randint(self.election_timeout_min, self.election_timeout_max)
 
 
 class ConfigLoader:

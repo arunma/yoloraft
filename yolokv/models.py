@@ -9,6 +9,7 @@ class ClientRequest(AppData):
     serial: int
     status: str
 
+
 @dataclass(unsafe_hash=True)
 class ClientResponse(AppDataResponse):
     status: str
